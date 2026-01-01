@@ -21,7 +21,13 @@ And also to make the usage more flexible it allows to act as opener as well as t
 */
  
 int analogPin0 = A0; // potentiometer wiper (middle terminal) connected to analog pin 0
+int analogPin1 = A1; // potentiometer wiper (middle terminal) connected to analog pin 1
+int analogPin2 = A2; // potentiometer wiper (middle terminal) connected to analog pin 2
+
 int analog_val0;
+int analog_val1;
+int analog_val2;
+
 
 // the setup routine runs once when you press reset:
 void setup() {
@@ -30,7 +36,7 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  analog_val0 = analogRead(analogPin0);  // read the input pin
-  Serial.println(analog_val0);          // debug value
+  analog_val2 = analogRead(analogPin2);  // read the input pin
+  Serial.println(analog_val2);          // debug value
   delay(100);
 }
