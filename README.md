@@ -5,6 +5,21 @@ Intended for handicapped people playing e-Piano but can not use a foot-switch, l
 
 ## Hardware
 
+Main element is an Air-pressure sensor from NXP, the MPXV 7007 DP.   
+This is an differential sensor, so it returns on default a voltage of 2.5 V,  
+when applying under-pressure it returns an analog value between 0 and 2.5 V,   
+when applying over-pressure it returns an anaolg value between 2.5 and 5 V.
+
+Around 20 years ago the rest of the HW would have been a simple comparator like the LM741 ...
+In the meantime micro-controllers are so cheap and I had some Arduino Micro like hardware lying around, 
+so I decided to go with that and some simple Software.   
+Once more a project "shooting with canons to sparrows", but in the end it gives more flexibility and potential extensibility...
+
+* Link to the [Data-Sheet of the Sensor](https://www.nxp.com/docs/en/data-sheet/MPXV7007.pdf)  
+* Link to some info about the Sparkfun [Arduino Pro Micro - Clone](https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/introduction) 
+* Link to some info about the [Roland-Switches in German](https://www.musiker-board.de/threads/tipp-roland-fussschalter-original-und-preiswerte-alternativen.336893/)
+
+
 ### Simple version 
 
 * Arduino Pro Micro
@@ -22,5 +37,10 @@ Intended for handicapped people playing e-Piano but can not use a foot-switch, l
 
 ## Software 
 
-Simple Arduino-Sketch, reading the pressure sensor, comparing it against the upper-switch-level and switching a relay and the same for the lower switching level.
+Simple Arduino-Sketch: 
+
+* On switch-on reading the pressure-sensor several times to read the default-value.
+* Then: Continuously reading the pressure sensor
+* comparing it against the upper-switch-level and switching a relay 
+* comparing it against the lower-switch-leval and switching another relay
 

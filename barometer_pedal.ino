@@ -28,15 +28,34 @@ int analog_val0;
 int analog_val1;
 int analog_val2;
 
+int relay0_pin = 2;
+int relay1_pin = 3;
+
+
 
 // the setup routine runs once when you press reset:
 void setup() {
   Serial.begin(9600);
+  pinMode(relay0_pin, OUTPUT);
+  pinMode(relay1_pin, OUTPUT);
+
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-  analog_val2 = analogRead(analogPin2);  // read the input pin
-  Serial.println(analog_val2);          // debug value
-  delay(100);
+  // analog_val2 = analogRead(analogPin2);  // read the input pin
+  // Serial.println(analog_val2);          // debug value
+  // delay(100);
+
+  
+  digitalWrite(relay0_pin, HIGH); 
+  delay(1000);
+  digitalWrite(relay0_pin, LOW);
+  delay(1000);
+  Serial.println("Blink");
+  digitalWrite(relay1_pin, HIGH); 
+  delay(1000);
+  digitalWrite(relay1_pin, LOW);
+  delay(1000);
+
 }
