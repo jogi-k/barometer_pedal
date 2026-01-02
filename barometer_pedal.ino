@@ -38,8 +38,8 @@ void setup() {
   Serial.begin(9600);
   pinMode(relay0_pin, OUTPUT);
   pinMode(relay1_pin, OUTPUT);
-  digitalWrite(relay0_pin, LOW);
-  digitalWrite(relay1_pin, LOW);
+  digitalWrite(relay0_pin, HIGH);
+  digitalWrite(relay1_pin, HIGH);
   delay(5000);
 }
 
@@ -50,14 +50,14 @@ void loop() {
   // delay(100);
 
   
-  digitalWrite(relay0_pin, HIGH); 
+  digitalWrite(relay0_pin, LOW); 
   delay(1000);
-  digitalWrite(relay0_pin, LOW);
+  digitalWrite(relay0_pin, HIGH);
   delay(1000);
   Serial.println("Blink");
-  digitalWrite(relay1_pin, HIGH); 
+  digitalWrite(relay1_pin, LOW); 
   delay(1000);
-  digitalWrite(relay1_pin, LOW);
+  digitalWrite(relay1_pin, HIGH);
   delay(5000);
 
 }
