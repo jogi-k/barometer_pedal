@@ -38,7 +38,9 @@ void setup() {
   Serial.begin(9600);
   pinMode(relay0_pin, OUTPUT);
   pinMode(relay1_pin, OUTPUT);
-
+  digitalWrite(relay0_pin, LOW);
+  digitalWrite(relay1_pin, LOW);
+  delay(5000);
 }
 
 // the loop routine runs over and over again forever:
@@ -56,6 +58,6 @@ void loop() {
   digitalWrite(relay1_pin, HIGH); 
   delay(1000);
   digitalWrite(relay1_pin, LOW);
-  delay(1000);
+  delay(5000);
 
 }
