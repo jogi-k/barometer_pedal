@@ -18,7 +18,7 @@ Once more a project "shooting with canons to sparrows", but in the end it gives 
 * Link to the [Data-Sheet of the Sensor](https://www.nxp.com/docs/en/data-sheet/MPXV7007.pdf)  
 * Link to some info about the Sparkfun [Arduino Pro Micro - Clone](https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/introduction) 
 * Link to some info about the [Roland-Switches in German](https://www.musiker-board.de/threads/tipp-roland-fussschalter-original-und-preiswerte-alternativen.336893/)
-
+* Some good general [info about pressure sensors](https://www.teachmemicro.com/arduino-pressure-sensor-tutorial/), not this specific one, still valuable.
 
 ### Simple version 
 
