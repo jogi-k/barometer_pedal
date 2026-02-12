@@ -20,9 +20,9 @@ And also to make the usage more flexible it allows to act as opener as well as t
 
 */
  
-int analogPin0 = A0; // potentiometer wiper (middle terminal) connected to analog pin 0
-int analogPin1 = A1; // potentiometer wiper (middle terminal) connected to analog pin 1
-int analogPin2 = A2; // potentiometer wiper (middle terminal) connected to analog pin 2
+int potentiometer1_pin  = A0; // potentiometer wiper (middle terminal) connected to analog pin 0
+int potentiometer2_pin  = A1; // potentiometer wiper (middle terminal) connected to analog pin 1
+int pressure_sensor_pin = A2; // MPXV 7007 DP analog output connected to analog pin 2
 
 int analog_val0;
 int analog_val1;
