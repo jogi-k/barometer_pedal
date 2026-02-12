@@ -15,18 +15,18 @@ But as it is a differential sensor, it allows two reactions: On underpressure an
 To make the HW and the SW more flexible the limit for switching can be changed with simple potentiometers.
 And also to make the usage more flexible it allows to act as opener as well as to close a circuit.
 
-
+Attention: The relay switches on LOW !
 
 
 */
  
-int potentiometer1_pin  = A0; // potentiometer wiper (middle terminal) connected to analog pin 0
+int pressure_sensor_pin = A0; // MPXV 7007 DP analog output connected to analog pin 2
+int potentiometer1_pin  = A2; // potentiometer wiper (middle terminal) connected to analog pin 0
 int potentiometer2_pin  = A1; // potentiometer wiper (middle terminal) connected to analog pin 1
-int pressure_sensor_pin = A2; // MPXV 7007 DP analog output connected to analog pin 2
 
-int analog_val0;
-int analog_val1;
-int analog_val2;
+int act_pressure_val;
+int vacuum_limit_val;
+int pressure_limit_val;
 
 int relay0_pin = 2;
 int relay1_pin = 3;
@@ -41,23 +41,34 @@ void setup() {
   digitalWrite(relay0_pin, HIGH);
   digitalWrite(relay1_pin, HIGH);
   delay(5000);
+  Serial.println("Pressure:,P1:,P2:");
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-  // analog_val2 = analogRead(analogPin2);  // read the input pin
-  // Serial.println(analog_val2);          // debug value
-  // delay(100);
-
-  
-  digitalWrite(relay0_pin, LOW); 
-  delay(1000);
-  digitalWrite(relay0_pin, HIGH);
-  delay(1000);
-  Serial.println("Blink");
-  digitalWrite(relay1_pin, LOW); 
-  delay(1000);
-  digitalWrite(relay1_pin, HIGH);
-  delay(5000);
-
+  vacuum_limit_val    = analogRead(potentiometer1_pin);  // read the input pin
+  pressure_limit_val  = analogRead(potentiometer2_pin);  // read the input pin
+  act_pressure_val    = analogRead(pressure_sensor_pin);  // read the input pin
+  Serial.print(act_pressure_val);
+  Serial.print(",");
+  Serial.print(vacuum_limit_val);
+  Serial.print(",");
+  Serial.println(pressure_limit_val);// debug value
+  if ( act_pressure_val  > pressure_limit_val )
+  {
+    digitalWrite(relay1_pin, LOW);
+  }
+  else
+  {
+    digitalWrite(relay1_pin, HIGH);
+  }
+  if ( act_pressure_val   <  vacuum_limit_val)
+  {
+    digitalWrite(relay0_pin, LOW);
+  }
+  else
+  {
+    digitalWrite(relay0_pin, HIGH);
+  }
+  delay(100);
 }
