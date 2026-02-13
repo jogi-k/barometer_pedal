@@ -44,3 +44,24 @@ Simple Arduino-Sketch:
 * comparing it against the upper-switch-level and switching a relay 
 * comparing it against the lower-switch-leval and switching another relay
 
+
+
+## Some Pictures intermediate
+
+**The prototype in the make**
+
+![Prototype]("pics/prototype1.jpg")
+
+
+**The prototype in action**
+
+![Prototype]("pics/prototype2.jpg")
+
+
+**Arduino Plotter**
+
+
+![Arduino Plot]("pics/Barometer_Pedal_Arduino_Plotter.png")
+
+
+
