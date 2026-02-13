@@ -1,7 +1,9 @@
 # Barometer Pedal
 
 Replaces a Roland DP-2 Foot-Pedal for an E-Piano with an electronic switch, driven by air-pressure applied with the mouth.
-Intended for handicapped people playing e-Piano but can not use a foot-switch, lile the Roland DP-2.
+Intended for handicapped people playing e-Piano but can not use a foot-switch, like the Roland DP-2.
+
+![Demo-Picture of intended use, created by AI](./pics/demo_picture.jpg)
 
 ## Hardware
 
