@@ -50,18 +50,21 @@ Simple Arduino-Sketch:
 
 **The prototype in the make**
 
-![Prototype]("pics/prototype1.jpg")
+![Prototype](./pics/prototype1.jpg)
 
 
 **The prototype in action**
 
-![Prototype]("pics/prototype2.jpg")
+![Prototype](./pics/prototype2.jpg)
 
 
 **Arduino Plotter**
 
 
-![Arduino Plot]("pics/Barometer_Pedal_Arduino_Plotter.png")
+![Arduino Plot](./pics/Barometer_Pedal_Arduino_Plotter.png)
+
+This shows first the "adjustments" on the needed pressure/vacuum - levels with the potentiometers and then the "playing" with the pressure sensor in the middle, putting pressure or vacuum on the sensor.
+Each time it crosses the upper or the lower barrier, the relevant relay will be switched.
 
 
 
