@@ -29,8 +29,8 @@ int pressure_limit_poti_pin  = A1; // potentiometer wiper (middle terminal) conn
 
 
 
-int relay0_pin = 2;
-int relay1_pin = 3;
+int relay_vacuum_pin = 2;
+int relay_pressure_pin = 3;
 
 int calibration_value = 0;
 
@@ -83,10 +83,10 @@ int adjust_max_vacuum( int analog_value)
 // the setup routine runs once when you press reset:
 void setup() {
   Serial.begin(9600);
-  pinMode(relay0_pin, OUTPUT);
-  pinMode(relay1_pin, OUTPUT);
-  digitalWrite(relay0_pin, HIGH);
-  digitalWrite(relay1_pin, HIGH);
+  pinMode(relay_vacuum_pin, OUTPUT);
+  pinMode(relay_pressure_pin, OUTPUT);
+  digitalWrite(relay_vacuum_pin, HIGH);
+  digitalWrite(relay_pressure_pin, HIGH);
   calibration_value = Calibrate();
   
   delay(5000);
@@ -101,7 +101,7 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  int act_pressure_val;
+  int act_baro_val;
   int vacuum_limit_val;
   int pressure_limit_val;
   int relay_pressure_val;
@@ -111,14 +111,14 @@ void loop() {
   
   vacuum_limit_val    = analogRead(vacuum_limit_poti_pin);  // read the input pin
   pressure_limit_val  = analogRead(pressure_limit_poti_pin);  // read the input pin
-  act_pressure_val    = analogRead(pressure_sensor_pin);  // read the input pin
+  act_baro_val    = analogRead(pressure_sensor_pin);  // read the input pin
 
   corrected_pressure_limit = adjust_max_pressure(pressure_limit_val);
   corrected_vacuum_limit   = adjust_max_vacuum( vacuum_limit_val );
 
 
 #ifdef PLOTTER  
-  Serial.print(act_pressure_val);
+  Serial.print(act_baro_val);
   Serial.print(",");
   Serial.print( corrected_vacuum_limit );
   Serial.print(",");
@@ -127,7 +127,7 @@ void loop() {
 
 #endif 
 
-  if ( act_pressure_val  > corrected_pressure_limit )
+  if ( act_baro_val  > corrected_pressure_limit )
   {
     relay_pressure_val = 1;
   }
@@ -135,7 +135,7 @@ void loop() {
   {
     relay_pressure_val = 0;
   }
-  if ( act_pressure_val   <  corrected_vacuum_limit )
+  if ( act_baro_val   <  corrected_vacuum_limit )
   {
     relay_vacuum_val = 1;
   }
@@ -146,22 +146,22 @@ void loop() {
  
   if ( relay_pressure_val == 1 )
   {
-    digitalWrite(relay1_pin, LOW);
+    digitalWrite(relay_pressure_pin, LOW);
     Serial.print("250,");
   }
   else
   {
-    digitalWrite(relay1_pin, HIGH);
+    digitalWrite(relay_pressure_pin, HIGH);
     Serial.print("0,");
   }
   if ( relay_vacuum_val == 1 )
   {
-    digitalWrite(relay0_pin, LOW);
+    digitalWrite(relay_vacuum_pin, LOW);
     Serial.println("250");
   }
   else
   {
-    digitalWrite(relay0_pin, HIGH);
+    digitalWrite(relay_vacuum_pin, HIGH);
     Serial.println("0");
   }
   
