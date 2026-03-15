@@ -31,9 +31,10 @@ int pressure_limit_poti_pin  = A1; // potentiometer wiper (middle terminal) conn
 
 int relay_vacuum_pin = 2;
 int relay_pressure_pin = 3;
+int norm_hold_switch_pin = 4;
 
 int calibration_value = 0;
-enum modus { norm, hold  } actual_modus = hold;
+enum modus { norm, hold  } actual_modus = norm;
 
 
 
@@ -88,6 +89,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(relay_vacuum_pin, OUTPUT);
   pinMode(relay_pressure_pin, OUTPUT);
+  pinMode(norm_hold_switch_pin, INPUT_PULLUP);
   digitalWrite(relay_vacuum_pin, HIGH);
   digitalWrite(relay_pressure_pin, HIGH);
   calibration_value = Calibrate();
@@ -117,11 +119,21 @@ void loop() {
   int relay_vacuum_val;
   int corrected_pressure_limit;
   int corrected_vacuum_limit;
+  int act_switch_value;
   
   vacuum_limit_val    = analogRead(vacuum_limit_poti_pin);  // read the input pin
   pressure_limit_val  = analogRead(pressure_limit_poti_pin);  // read the input pin
   act_baro_val    = analogRead(pressure_sensor_pin);  // read the input pin
 
+  act_switch_value = digitalRead( norm_hold_switch_pin );
+  if ( act_switch_value == 1 )
+  {
+     actual_modus = norm;
+  }
+  else
+  {
+    actual_modus = hold;
+  }
   corrected_pressure_limit = adjust_max_pressure(pressure_limit_val);
   corrected_vacuum_limit   = adjust_max_vacuum( vacuum_limit_val );
 
