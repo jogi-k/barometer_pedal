@@ -33,6 +33,9 @@ int relay_vacuum_pin = 2;
 int relay_pressure_pin = 3;
 
 int calibration_value = 0;
+enum modus { norm, hold  } actual_modus = hold;
+
+
 
 int Calibrate(void)
 {
@@ -99,6 +102,12 @@ void setup() {
 
 }
 
+
+int old_relay_pressure_val = 0; 
+int old_relay_vacuum_val = 0;
+int vacuum_relay_state = 0; 
+int pressure_relay_state = 0; 
+
 // the loop routine runs over and over again forever:
 void loop() {
   int act_baro_val;
@@ -123,10 +132,10 @@ void loop() {
   Serial.print( corrected_vacuum_limit );
   Serial.print(",");
   Serial.print(corrected_pressure_limit);// debug value
-  Serial.print(",");
+  Serial.print(","); 
 
 #endif 
-
+  // Step 1 : Check if pressure or vacuum are greater than expected limit
   if ( act_baro_val  > corrected_pressure_limit )
   {
     relay_pressure_val = 1;
@@ -143,8 +152,29 @@ void loop() {
   {
     relay_vacuum_val = 0;
   }
- 
-  if ( relay_pressure_val == 1 )
+
+  // Step 2a: If modus == norm, then just take over the calculated values and accept them as the state 
+  if ( actual_modus == norm )
+  {
+    vacuum_relay_state = relay_vacuum_val;
+    pressure_relay_state = relay_pressure_val; 
+  }
+  else  // Step 2b : if modus == hold then a logical raising edge will invert the value of the relays 
+  {
+    if( (relay_vacuum_val == 1)  && (old_relay_vacuum_val == 0 ))
+    {
+      vacuum_relay_state = ! vacuum_relay_state; 
+    }
+    if( (relay_pressure_val == 1)  && (old_relay_pressure_val == 0 ))
+    {
+      pressure_relay_state = ! pressure_relay_state; 
+    }
+
+  }
+  old_relay_pressure_val = relay_pressure_val;
+  old_relay_vacuum_val = relay_vacuum_val;
+  // Step 3: Apply the evaluated relay_state
+  if ( pressure_relay_state == 1 )
   {
     digitalWrite(relay_pressure_pin, LOW);
     Serial.print("250,");
@@ -154,7 +184,7 @@ void loop() {
     digitalWrite(relay_pressure_pin, HIGH);
     Serial.print("0,");
   }
-  if ( relay_vacuum_val == 1 )
+  if ( vacuum_relay_state == 1 )
   {
     digitalWrite(relay_vacuum_pin, LOW);
     Serial.println("250");
