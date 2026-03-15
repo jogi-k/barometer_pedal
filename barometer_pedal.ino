@@ -6,7 +6,7 @@ Instead they can put underpressure or overpressure into a simple tube.
 Uses an (differential) air-pressure sensor from NXP : MPXV 7007 DP
 This is connected to an analog port : A0
 As it is differential air pressure sensor it gives 
-~ 2.5 V on no pressure 
+~ 2.5 V on no (differential) pressure 
 goes down to 0V on underpressure 
 goes up to 5V on overpressure.
 
@@ -19,6 +19,9 @@ Attention: The relay switches on LOW !
 
 
 */
+
+#define PLOTTER
+
  
 int pressure_sensor_pin = A0; // MPXV 7007 DP analog output connected to analog pin 0, return 0 ... 1024 , differential pressure therefore idle value should be ~ 512
 int vacuum_limit_poti_pin  = A2; // potentiometer wiper (middle terminal) connected to analog pin 1. Gives also 0 ... 1024 
@@ -89,7 +92,11 @@ void setup() {
   delay(5000);
   Serial.println("Calibration: " );
   Serial.println(calibration_value);
-  Serial.println("Act_Pressure:,Vacuum_Lim:,Pressure_Lim:");
+  // preparation for the plotter 
+#ifdef PLOTTER
+  Serial.println("Act_Pressure:,Vacuum_Lim:,Pressure_Lim:,Vacuum_Relay:,Pressure_Relay:");
+#endif
+
 }
 
 // the loop routine runs over and over again forever:
@@ -97,6 +104,8 @@ void loop() {
   int act_pressure_val;
   int vacuum_limit_val;
   int pressure_limit_val;
+  int relay_pressure_val;
+  int relay_vacuum_val;
   int corrected_pressure_limit;
   int corrected_vacuum_limit;
   
@@ -107,30 +116,54 @@ void loop() {
   corrected_pressure_limit = adjust_max_pressure(pressure_limit_val);
   corrected_vacuum_limit   = adjust_max_vacuum( vacuum_limit_val );
 
-#define PLOTTER
+
 #ifdef PLOTTER  
   Serial.print(act_pressure_val);
   Serial.print(",");
   Serial.print( corrected_vacuum_limit );
   Serial.print(",");
-  Serial.println(corrected_pressure_limit);// debug value
+  Serial.print(corrected_pressure_limit);// debug value
+  Serial.print(",");
+
 #endif 
 
   if ( act_pressure_val  > corrected_pressure_limit )
   {
+    relay_pressure_val = 1;
+  }
+  else
+  {
+    relay_pressure_val = 0;
+  }
+  if ( act_pressure_val   <  corrected_vacuum_limit )
+  {
+    relay_vacuum_val = 1;
+  }
+  else
+  {
+    relay_vacuum_val = 0;
+  }
+ 
+  if ( relay_pressure_val == 1 )
+  {
     digitalWrite(relay1_pin, LOW);
+    Serial.print("250,");
   }
   else
   {
     digitalWrite(relay1_pin, HIGH);
+    Serial.print("0,");
   }
-  if ( act_pressure_val   <  corrected_vacuum_limit )
+  if ( relay_vacuum_val == 1 )
   {
     digitalWrite(relay0_pin, LOW);
+    Serial.println("250");
   }
   else
   {
     digitalWrite(relay0_pin, HIGH);
+    Serial.println("0");
   }
+  
   delay(100);
 }
